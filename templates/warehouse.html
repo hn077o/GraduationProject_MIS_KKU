@@ -1,0 +1,151 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Warehouse Staff Dashboard - Supply Chain Management</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.2/dist/umd/popper.min.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f4f4f4;
+        }
+        .navbar-custom {
+            background-color: #000000;
+        }
+        .navbar-custom .navbar-brand,
+        .navbar-custom .nav-link {
+            color: #ffffff;
+        }
+        .navbar-custom .nav-link:hover {
+            color: #ffd700;
+        }
+        .container {
+            margin-top: 20px;
+        }
+        .card {
+            margin-bottom: 20px;
+        }
+        .card-header {
+            background-color: #0056b3;
+            color: white;
+            cursor: pointer;
+        }
+        .card-header:hover {
+            background-color: #004494;
+        }
+        .list-group-item a {
+            color: #0056b3;
+            text-decoration: none;
+        }
+        .list-group-item a:hover {
+            text-decoration: underline;
+        }
+    </style>
+    <script>
+        function handleLogout(event) {
+            event.preventDefault();
+            window.location.href = "{{ url_for('login') }}";
+        }
+    </script>
+</head>
+<body>
+    <nav class="navbar navbar-expand-lg navbar-custom fixed-top">
+        <a class="navbar-brand" href="{{ url_for('index') }}">Supply Chain Management</a>
+        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="navbarNav">
+            <ul class="navbar-nav ml-auto">
+                <li class="nav-item">
+                    <a class="nav-link" href="{{ url_for('index') }}">Home</a>
+                </li>
+                <li class="nav-item active">
+                    <a class="nav-link" href="#">Warehouse Staff Dashboard <span class="sr-only">(current)</span></a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="{{ url_for('logout_users') }}">Logout</a>
+                </li>
+            </ul>
+        </div>
+    </nav>
+
+    <div class="container p-5">
+        <h1 class="text-center">Welcome, Choose the service you need</h1>
+        <div class="row">
+            <!-- Warehouse Management -->
+            <div class="col-md-4">
+                <div class="card">
+                    <div class="card-header" data-toggle="collapse" data-target="#collapseWarehouseManagement" aria-expanded="true" aria-controls="collapseWarehouseManagement">
+                        Warehouse Management
+                    </div>
+                    <div id="collapseWarehouseManagement" class="collapse show">
+                        <div class="card-body">
+                            <ul class="list-group">
+                                <li class="list-group-item"><a href="{{ url_for('view_current_warehouse') }}">View Current Warehouse</a></li>
+                                <li class="list-group-item"><a href="{{ url_for('update_product_quantities') }}">Update Product Quantities</a></li>
+                                <li class="list-group-item"><a href="{{ url_for('add_new_products') }}">Add New Products</a></li>
+                                <li class="list-group-item"><a href="{{ url_for('set_reorder_points') }}">Set Reorder Points</a></li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <!-- Order Management -->
+            <div class="col-md-4">
+                <div class="card">
+                    <div class="card-header" data-toggle="collapse" data-target="#collapseOrderManagement" aria-expanded="false" aria-controls="collapseOrderManagement">
+                        Order Management
+                    </div>
+                    <div id="collapseOrderManagement" class="collapse show">
+                        <div class="card-body">
+                            <ul class="list-group">
+                                <li class="list-group-item"><a href="{{ url_for('update_order_status_warehouhe_staff') }}">Update Order Status</a></li>
+                                <li class="list-group-item"><a href="{{ url_for('prepare_orders') }}">Prepare Orders</a></li>
+                                <li class="list-group-item"><a href="{{ url_for('receive_new_orders') }}">Receive New Orders</a></li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <!-- Shipment Management -->
+            <div class="col-md-4">
+                <div class="card">
+                    <div class="card-header" data-toggle="collapse" data-target="#collapseShipmentManagement" aria-expanded="false" aria-controls="collapseShipmentManagement">
+                        Shipment Management
+                    </div>
+                    <div id="collapseShipmentManagement" class="collapse show">
+                        <div class="card-body">
+                            <ul class="list-group">
+                                <li class="list-group-item"><a href="{{ url_for('schedule_shipments') }}">Schedule Shipments</a></li>
+                                <li class="list-group-item"><a href="{{ url_for('track_shipments') }}">Track Shipments</a></li>
+                                <li class="list-group-item"><a href="{{ url_for('manage_returns') }}">Manage Returns</a></li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <!-- Reports and Statistics -->
+            <div class="col-md-4">
+                <div class="card">
+                    <div class="card-header" data-toggle="collapse" data-target="#collapseReports" aria-expanded="false" aria-controls="collapseReports">
+                        Reports and Statistics
+                    </div>
+                    <div id="collapseReports" class="collapse show">
+                        <div class="card-body">
+                            <ul class="list-group">
+                                <li class="list-group-item"><a href="{{ url_for('warehouse_reports') }}">Warehouse Reports</a></li>
+                                <li class="list-group-item"><a href="{{ url_for('analyze_warehouse_turnover') }}">Analyze Warehouse Turnover</a></li>
+                                <li class="list-group-item"><a href="{{ url_for('Orders_and_shipment_reports') }}">Orders and shipment reports</a></li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</body>
+</html>

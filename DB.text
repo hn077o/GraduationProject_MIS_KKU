@@ -1,0 +1,188 @@
+تم انشاء قاعدة البيانات عن طريق برنامج PostgreSQL 
+في هذه الصفحه طريقة انشائها عن طريق بايثون بدمج هذا الكود مع صفحة
+app.py
+
+from flask import Flask
+import psycopg
+from psycopg.rows import dict_row
+import os
+
+# إعداد Flask
+app = Flask(__name__)
+
+# إعدادات الاتصال بقاعدة البيانات
+DB_NAME = "*****"
+DB_USER = "*****"
+DB_PASSWORD = "****"
+DB_HOST = "*****"
+DB_PORT = *****
+
+
+# إنشاء اتصال بقاعدة البيانات
+def get_db_connection():
+    conn = psycopg.connect(
+        dbname=DB_NAME,
+        user=DB_USER,
+        password=DB_PASSWORD,
+        host=DB_HOST,
+        port=DB_PORT,
+        row_factory=dict_row  # للحصول على النتائج كقواميس
+    )
+    return conn
+
+#دالة لإنشاء صفحة للتأكد من الاتصال بقاعدة البيانات
+@app.route('/test_connection')  
+def test_connection():  
+    conn = None
+    try:  
+        conn = get_db_connection()
+        return "الاتصال بقاعدة البيانات ناجح."  
+    except Exception as error:  
+        return f"فشل الاتصال بقاعدة البيانات: {error}", 500
+    finally:
+        if conn is not None:
+            conn.close()
+
+# أوامر SQL لإنشاء الجداول
+CREATE_TABLES_SQL = """
+-- إنشاء جدول المستخدمين
+CREATE TABLE IF NOT EXISTS users (
+    user_id SERIAL PRIMARY KEY,
+    username VARCHAR(50) UNIQUE NOT NULL,
+    email VARCHAR(50) UNIQUE NOT NULL,
+    password_hash VARCHAR(255) NOT NULL,
+    role VARCHAR(20) NOT NULL,
+    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    CONSTRAINT valid_role CHECK (role IN ('admin', 'supplier', 'customer', 'sales_staff', 'warehouse_staff'))
+);
+
+-- إنشاء جدول الموردين
+CREATE TABLE IF NOT EXISTS Suppliers (
+    SupplierID SERIAL PRIMARY KEY,
+    user_id INT NOT NULL UNIQUE REFERENCES users(user_id),
+    SupplierName VARCHAR(50),
+    SupplierAddress VARCHAR(100),
+    SupplierRating FLOAT,
+    Email VARCHAR(50),
+    PhoneNumber INT
+);
+
+-- إنشاء جدول المنتجات
+CREATE TABLE IF NOT EXISTS Products (
+    ProductID SERIAL PRIMARY KEY,
+    ProductName VARCHAR(50),
+    ProductDescription VARCHAR(300),
+    UnitPrice FLOAT,
+    SupplierID INT REFERENCES Suppliers(SupplierID)
+);
+
+-- إنشاء جدول المستودع
+CREATE TABLE IF NOT EXISTS Warehouse (
+    WarehouseID SERIAL PRIMARY KEY,
+    user_id INT NOT NULL REFERENCES users(user_id),
+    WarehouseLocation VARCHAR(100),
+    QuantityAvailable INT,
+    ProductID INT REFERENCES Products(ProductID)
+);
+
+-- إنشاء جدول تفاصيل الطلبات
+CREATE TABLE IF NOT EXISTS OrderDetails (
+    OrderDetailID SERIAL PRIMARY KEY,
+    ProductID INT REFERENCES Products(ProductID),
+    QuantityOrdered INT,
+    UnitPrice FLOAT
+);
+
+-- إنشاء جدول العملاء
+CREATE TABLE IF NOT EXISTS Customers (
+    CustomerID SERIAL PRIMARY KEY,
+    user_id INT NOT NULL UNIQUE REFERENCES users(user_id),
+    CustomerName VARCHAR(50),
+    CustomerAddress VARCHAR(100),
+    PhoneNumber INT
+);
+
+-- إنشاء جدول الطلبات
+CREATE TABLE IF NOT EXISTS Orders (
+    OrderID SERIAL PRIMARY KEY,
+    CustomerID INT REFERENCES Customers(CustomerID),
+    OrderDate DATE,
+    OrderStatus VARCHAR(50)
+);
+
+-- إنشاء جدول منتجات الطلبات
+CREATE TABLE IF NOT EXISTS OrderProducts (
+    OrderProductsID SERIAL PRIMARY KEY,
+    NameProducts VARCHAR(50),
+    Quantity INT,
+    OrderID INT REFERENCES Orders(OrderID),
+    ProductID INT REFERENCES Products(ProductID)
+);
+
+-- إنشاء جدول الشحن
+CREATE TABLE IF NOT EXISTS Shipping (
+    ShippingID SERIAL PRIMARY KEY,
+    OrderID INT REFERENCES Orders(OrderID),
+    ShippingDate DATE,
+    ShippingCompany VARCHAR(50),
+    TrackingNumber VARCHAR(50)
+);
+
+-- إنشاء جدول المرتجعات
+CREATE TABLE IF NOT EXISTS Returns (
+    ReturnID SERIAL PRIMARY KEY,
+    OrderID INT REFERENCES Orders(OrderID),
+    ReturnDate DATE,
+    ReturnReason VARCHAR(100)
+);
+"""
+
+
+
+
+# وظيفة لإنشاء الجداول
+def create_tables():
+    try:
+        with get_db_connection() as conn:
+            conn.execute(CREATE_TABLES_SQL)
+            print("Tables created successfully!")
+    except Exception as e:
+        print(f"Error creating tables: {e}")
+
+# نقطة البداية للتطبيق
+@app.route("/")
+def home():
+    return "Welcome to Flask with PostgreSQL!"
+
+if __name__ == "__main__":
+    # إنشاء الجداول عند بدء التطبيق
+    create_tables()
+    app.run(debug=True)
+
+
+
+
+
+انشاء المسؤول
+
+دالة التشفير
+CREATE EXTENSION IF NOT EXISTS pgcrypto;
+
+انشاء المسؤول
+INSERT INTO users (username, email, password_hash, role) 
+VALUES (
+    'admin2', 
+    'KKU@KKU.SA', 
+    crypt('KKU', gen_salt('bf')), 
+    'admin'
+);
+
+
+
+
+
+
+دالة تقوم بالتحقق من ان المسؤول لبيانات المدخلة (البريد الإلكتروني وكلمة المرور) صحيحة
+ (users)فسيعيد الاستعلام الصف (أو الصفوف) المطابق من جدول 
+ SELECT * FROM users 
+WHERE email = 'ot@gmail.com' AND password_hash = crypt('123', password_hash);

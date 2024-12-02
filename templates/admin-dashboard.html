@@ -1,0 +1,161 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Administrator Dashboard - Supply Chain Management</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.2/dist/umd/popper.min.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f4f4f4;
+        }
+        .navbar-custom {
+            background-color: #000000;
+        }
+        .navbar-custom .navbar-brand,
+        .navbar-custom .nav-link {
+            color: #fff;
+        }
+        .navbar-custom .nav-link:hover {
+            color: #ffd700;
+        }
+        .container {
+            margin-top: 20px;
+        }
+        .card {
+            margin-bottom: 20px;
+        }
+        .card-header {
+            background-color: #0056b3;
+            color: white;
+            cursor: pointer;
+        }
+        .card-header:hover {
+            background-color: #004494;
+        }
+        .list-group-item a {
+            color: #0056b3;
+            text-decoration: none;
+        }
+        .list-group-item a:hover {
+            text-decoration: underline;
+        }
+    </style>
+</head>
+<body>
+    <nav class="navbar navbar-expand-lg navbar-custom fixed-top">
+        <a class="navbar-brand" href="{{ url_for('index') }}">Supply Chain Management</a>
+        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="navbarNav">
+            <ul class="navbar-nav ml-auto">
+                <li class="nav-item">
+                    <a class="nav-link" href="{{ url_for('index') }}">Home</a>
+                </li>
+                <li class="nav-item active">
+                    <a class="nav-link" href="#">Administrator Dashboard <span class="sr-only">(current)</span></a>
+                </li>
+                <li class="nav-item">
+                    <!-- تعديل رابط تسجيل الخروج -->
+                    <a class="nav-link" href="{{ url_for('logout') }}">Logout</a>
+                </li>
+            </ul>
+        </div>
+    </nav>
+
+    <div class="container p-5">
+        <h1 class="text-center">Welcome, Choose the service you need</h1>
+        <div class="row">
+            <!-- User Management -->
+            <div class="col-md-4">
+                <div class="card">
+                    <div class="card-header" data-toggle="collapse" data-target="#collapseUserManagement" aria-expanded="true" aria-controls="collapseUserManagement">
+                        User Management
+                    </div>
+                    <div id="collapseUserManagement" class="collapse show">
+                        <div class="card-body">
+                            <ul class="list-group">
+                                <li class="list-group-item"><a href="{{ url_for('add_user') }}">Add User</a></li>
+                                <li class="list-group-item"><a href="{{ url_for('edit_user') }}">Edit User</a></li>
+                                <li class="list-group-item"><a href="{{ url_for('delete_user') }}">Delete User</a></li>
+                                <li class="list-group-item"><a href="{{ url_for('view_users') }}">View Users</a></li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <!-- System Settings -->
+            <div class="col-md-4">
+                <div class="card">
+                    <div class="card-header" data-toggle="collapse" data-target="#collapseSystemSettings" aria-expanded="false" aria-controls="collapseSystemSettings">
+                        System Settings
+                    </div>
+                    <div id="collapseSystemSettings" class="collapse show">
+                        <div class="card-body">
+                            <ul class="list-group">
+                                <li class="list-group-item"><a href="{{ url_for('general_settings') }}">General Settings</a></li>
+                                <li class="list-group-item"><a href="{{ url_for('security_settings') }}">Security Settings</a></li>
+                                <li class="list-group-item"><a href="{{ url_for('notification_settings') }}">Notification Settings</a></li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <!-- Reports -->
+            <div class="col-md-4">
+                <div class="card">
+                    <div class="card-header" data-toggle="collapse" data-target="#collapseReports" aria-expanded="false" aria-controls="collapseReports">
+                        Reports
+                    </div>
+                    <div id="collapseReports" class="collapse show">
+                        <div class="card-body">
+                            <ul class="list-group">
+                                <li class="list-group-item"><a href="{{ url_for('generate_reports') }}">Generate Reports</a></li>
+                                <li class="list-group-item"><a href="{{ url_for('view_reports') }}">View Reports</a></li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <!-- Permissions Management -->
+            <div class="col-md-4">
+                <div class="card">
+                    <div class="card-header" data-toggle="collapse" data-target="#collapsePermissionsManagement" aria-expanded="false" aria-controls="collapsePermissionsManagement">
+                        Permissions Management
+                    </div>
+                    <div id="collapsePermissionsManagement" class="collapse show">
+                        <div class="card-body">
+                            <ul class="list-group">
+                                <li class="list-group-item"><a href="{{ url_for('assign_permissions') }}">Assign Permissions</a></li>
+                                <li class="list-group-item"><a href="{{ url_for('edit_permissions') }}">Edit Permissions</a></li>
+                                <li class="list-group-item"><a href="{{ url_for('view_permissions') }}">View Permissions</a></li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <!-- Account Management -->
+            <div class="col-md-4">
+                <div class="card">
+                    <div class="card-header" data-toggle="collapse" data-target="#collapseAccountManagement" aria-expanded="false" aria-controls="collapseAccountManagement">
+                        Account Management
+                    </div>
+                    <div id="collapseAccountManagement" class="collapse show">
+                        <div class="card-body">
+                            <ul class="list-group">
+                                <li class="list-group-item"><a href="{{ url_for('manage_account') }}">Manage Account</a></li>
+                                <li class="list-group-item"><a href="{{ url_for('change_password') }}">Change Password</a></li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</body>
+</html>

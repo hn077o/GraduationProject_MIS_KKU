@@ -1,0 +1,148 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sales Staff Dashboard - Supply Chain Management</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.2/dist/umd/popper.min.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f4f4f4;
+        }
+        .navbar-custom {
+            background-color: #000000;
+        }
+        .navbar-custom .navbar-brand,
+        .navbar-custom .nav-link {
+            color: #fff;
+        }
+        .navbar-custom .nav-link:hover {
+            color: #ffd700;
+        }
+        .container {
+            margin-top: 20px;
+        }
+        .card {
+            margin-bottom: 20px;
+        }
+        .card-header {
+            background-color: #0056b3;
+            color: white;
+            cursor: pointer;
+        }
+        .card-header:hover {
+            background-color: #004494;
+        }
+        .list-group-item a {
+            color: #0056b3;
+            text-decoration: none;
+        }
+        .list-group-item a:hover {
+            text-decoration: underline;
+        }
+    </style>
+    <script>
+        function handleLogout(event) {
+            event.preventDefault();
+            window.location.href = "{{ url_for('login') }}";
+        }
+    </script>
+</head>
+<body>
+    <nav class="navbar navbar-expand-lg navbar-custom fixed-top">
+        <a class="navbar-brand" href="{{ url_for('index') }}">Supply Chain Management</a>
+        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="navbarNav">
+            <ul class="navbar-nav ml-auto">
+                <li class="nav-item">
+                    <a class="nav-link" href="{{ url_for('index') }}">Home</a>
+                </li>
+                <li class="nav-item active">
+                    <a class="nav-link" href="#">Sales Staff Dashboard <span class="sr-only">(current)</span></a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="{{ url_for('logout_users') }}">Logout</a>
+                </li>
+            </ul>
+        </div>
+    </nav>
+
+    <div class="container p-5">
+        <h1 class="text-center">Welcome, Choose the service you need</h1>
+        <div class="row">
+            <!-- Order Management -->
+            <div class="col-md-4">
+                <div class="card">
+                    <div class="card-header" data-toggle="collapse" data-target="#collapseOrderManagement" aria-expanded="true" aria-controls="collapseOrderManagement">
+                        Order Management
+                    </div>
+                    <div id="collapseOrderManagement" class="collapse show">
+                        <div class="card-body">
+                            <ul class="list-group">
+                                <li class="list-group-item"><a href="{{ url_for('view_new_orders_sales') }}">View New Orders</a></li>
+                                <li class="list-group-item"><a href="{{ url_for('track_order_status_sales_staff') }}">Track Order Status</a></li>
+                                <li class="list-group-item"><a href="{{ url_for('handle_order_issues_sales_staff') }}">Handle Order Issues</a></li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <!-- Customer Service -->
+            <div class="col-md-4">
+                <div class="card">
+                    <div class="card-header" data-toggle="collapse" data-target="#collapseCustomerService" aria-expanded="false" aria-controls="collapseCustomerService">
+                        Customer Service
+                    </div>
+                    <div id="collapseCustomerService" class="collapse show">
+                        <div class="card-body">
+                            <ul class="list-group">
+                                <li class="list-group-item"><a href="{{ url_for('respond_to_customers') }}">Respond to Customer Inquiries</a></li>
+                                <li class="list-group-item"><a href="{{ url_for('process_complaints_sales_staff') }}">Process Complaints</a></li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <!-- Promotions & Discounts -->
+            <div class="col-md-4">
+                <div class="card">
+                    <div class="card-header" data-toggle="collapse" data-target="#collapsePromotions" aria-expanded="false" aria-controls="collapsePromotions">
+                        Promotions & Discounts
+                    </div>
+                    <div id="collapsePromotions" class="collapse show">
+                        <div class="card-body">
+                            <ul class="list-group">
+                                <li class="list-group-item"><a href="{{ url_for('create_special_offers') }}">Create Special Offers</a></li>
+                                <li class="list-group-item"><a href="{{ url_for('apply_discounts') }}">Apply Discounts</a></li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <!-- Reports & Analytics -->
+            <div class="col-md-4">
+                <div class="card">
+                    <div class="card-header" data-toggle="collapse" data-target="#collapseReports" aria-expanded="false" aria-controls="collapseReports">
+                        Reports & Analytics
+                    </div>
+                    <div id="collapseReports" class="collapse show">
+                        <div class="card-body">
+                            <ul class="list-group">
+                                <li class="list-group-item"><a href="{{ url_for('view_sales_reports_sales_staff') }}">View Sales Reports</a></li>
+                                <li class="list-group-item"><a href="{{ url_for('view_customer_feedback') }}">View Customer Feedback</a></li>
+                                <li class="list-group-item"><a href="{{ url_for('Monitor_sales_targets') }}">Monitor sales targets</a></li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</body>
+</html>
