@@ -1,0 +1,106 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>View Supply Reports - Supplier - Supply Chain Management</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f4f4f4;
+        }
+        .navbar-custom {
+            background-color: #000000;
+        }
+        .navbar-custom .navbar-brand,
+        .navbar-custom .nav-link {
+            color: #fff;
+        }
+        .navbar-custom .nav-link:hover {
+            color: #ffd700;
+        }
+        .container {
+            margin-top: 80px;
+        }
+        .report-header {
+            background-color: #0056b3;
+            color: white;
+            padding: 15px;
+            margin-bottom: 20px;
+            text-align: center;
+            border-radius: 8px;
+        }
+        .table thead {
+            background-color: #0056b3;
+            color: white;
+        }
+    </style>
+</head>
+<body>
+    <!-- شريط التنقل -->
+    <nav class="navbar navbar-expand-lg navbar-custom fixed-top">
+        <a class="navbar-brand" href="{{ url_for('index') }}">Supply Chain Management</a>
+        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav" 
+                aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="navbarNav">
+            <ul class="navbar-nav ml-auto">
+                <li class="nav-item{% if request.endpoint == 'index' %} active{% endif %}">
+                    <a class="nav-link" href="{{ url_for('index') }}">Home</a>
+                </li>
+                <li class="nav-item{% if request.endpoint == 'supplier_dashboard' %} active{% endif %}">
+                    <a class="nav-link" href="{{ url_for('supplier_dashboard') }}">Supplier Dashboard</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link">Supplier ID: {{ session['supplier_id'] }}</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="{{ url_for('logout_users') }}">Logout</a>
+                </li>
+            </ul>
+        </div>
+    </nav>
+
+    <div class="container">
+        <div class="report-header">
+            <h1>Supply Reports</h1>
+        </div>
+        <div class="table-responsive">
+            <table class="table table-striped">
+                <thead>
+                    <tr>
+                        <th>Supplier ID</th>
+                        <th>Supplier Name</th>
+                        <th>Email</th>
+                        <th>Product ID</th>
+                        <th>Product Name</th>
+                        <th>Unit Price</th>
+                        <th>Warehouse ID</th>
+                        <th>Warehouse Location</th>
+                        <th>Quantity Available</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for report in supply_reports %}
+                    <tr>
+                        <td>{{ report['supplier_id'] }}</td>
+                        <td>{{ report['supplier_name'] }}</td>
+                        <td>{{ report['email'] }}</td>
+                        <td>{{ report['product_id'] }}</td>
+                        <td>{{ report['product_name'] }}</td>
+                        <td>${{ report['unit_price'] }}</td>
+                        <td>{{ report['warehouse_id'] }}</td>
+                        <td>{{ report['warehouse_location'] }}</td>
+                        <td>{{ report['quantity_available'] }}</td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+    </div>
+
+    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+</body>
+</html>

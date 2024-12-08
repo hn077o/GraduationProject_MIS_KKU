@@ -67,6 +67,9 @@
                     <a class="nav-link" href="#">Warehouse Staff Dashboard <span class="sr-only">(current)</span></a>
                 </li>
                 <li class="nav-item">
+                    <a class="nav-link" href="#">Warehouse ID: {{ session['user_id'] }}</a>
+                </li>
+                <li class="nav-item">
                     <a class="nav-link" href="{{ url_for('logout_users') }}">Logout</a>
                 </li>
             </ul>

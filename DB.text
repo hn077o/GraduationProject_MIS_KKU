@@ -43,6 +43,7 @@ def test_connection():
         if conn is not None:
             conn.close()
 
+
 # أوامر SQL لإنشاء الجداول
 CREATE_TABLES_SQL = """
 -- إنشاء جدول المستخدمين
@@ -124,7 +125,7 @@ CREATE TABLE IF NOT EXISTS Shipping (
     ShippingID SERIAL PRIMARY KEY,
     OrderID INT REFERENCES Orders(OrderID),
     ShippingDate DATE,
-    ShippingCompany VARCHAR(50),
+    shippingstatus VARCHAR(50),
     TrackingNumber VARCHAR(50)
 );
 
@@ -136,6 +137,7 @@ CREATE TABLE IF NOT EXISTS Returns (
     ReturnReason VARCHAR(100)
 );
 """
+
 
 
 

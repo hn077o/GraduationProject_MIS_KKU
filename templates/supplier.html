@@ -64,7 +64,10 @@
                     <a class="nav-link" href="{{ url_for('index') }}">Home</a>
                 </li>
                 <li class="nav-item active">
-                    <a class="nav-link" href="#">Supplier Dashboard <span class="sr-only">(current)</span></a>
+                    <a class="nav-link" href="{{ url_for('supplier_dashboard') }}">supplier dashboard</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link">Supplier ID: {{ session['supplier_id'] }}</a>
                 </li>
                 <li class="nav-item">
                     <a class="nav-link" href="{{ url_for('logout_users') }}">Logout</a>
@@ -101,7 +104,7 @@
                     <div id="collapseProductManagement" class="collapse show">
                         <div class="card-body">
                             <ul class="list-group">
-                                <li class="list-group-item"><a href="{{ url_for('add_new_product') }}">Add New Product</a></li>
+                                <li class="list-group-item"><a href="{{ url_for('add_new_product_supplier') }}">Product supply</a></li>
                                 <li class="list-group-item"><a href="{{ url_for('edit_product') }}">Edit Product</a></li>
                                 <li class="list-group-item"><a href="{{ url_for('delete_product') }}">Delete Product</a></li>
                             </ul>
@@ -151,7 +154,7 @@
                     <div id="collapseReports" class="collapse show">
                         <div class="card-body">
                             <ul class="list-group">
-                                <li class="list-group-item"><a href="{{ url_for('view_sales_reports_supplier') }}">View Sales Reports</a></li>
+                                <li class="list-group-item"><a href="{{ url_for('view_supply_reports') }}">View Supply Reports</a></li>
                                 <li class="list-group-item"><a href="{{ url_for('analyze_product_performance') }}">Analyze Product Performance</a></li>
                                 <li class="list-group-item"><a href="{{ url_for('user_details') }}">User Details</a></li>
                             </ul>

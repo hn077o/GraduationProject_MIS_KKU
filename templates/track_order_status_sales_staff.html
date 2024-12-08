@@ -1,0 +1,109 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Track Order Status - Sales Staff - Supply Chain Management</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f4f4f4;
+        }
+        .navbar-custom {
+            background-color: #000000;
+        }
+        .navbar-custom .navbar-brand,
+        .navbar-custom .nav-link {
+            color: #fff;
+        }
+        .navbar-custom .nav-link:hover {
+            color: #ffd700;
+        }
+        .container {
+            margin-top: 80px;
+        }
+        .table thead {
+            background-color: #0056b3;
+            color: white;
+        }
+        .filter-form {
+            margin-bottom: 20px;
+        }
+    </style>
+</head>
+<body>
+    <nav class="navbar navbar-expand-lg navbar-custom fixed-top">
+        <a class="navbar-brand" href="{{ url_for('index') }}">Supply Chain Management</a>
+        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav" 
+                aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="navbarNav">
+            <ul class="navbar-nav ml-auto">
+                <li class="nav-item{% if request.endpoint == 'index' %} active{% endif %}">
+                    <a class="nav-link" href="{{ url_for('index') }}">Home</a>
+                </li>
+                <li class="nav-item{% if request.endpoint == 'sales_staff_dashboard' %} active{% endif %}">
+                    <a class="nav-link" href="{{ url_for('sales_dashboard') }}">Sales Staff Dashboard</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link">Sales Staff ID: {{ session['user_id'] }}</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="{{ url_for('logout_users') }}">Logout</a>
+                </li>
+            </ul>
+        </div>
+    </nav>
+
+    <div class="container">
+        <h1 class="mb-4">Track Order Status</h1>
+        <form method="GET" action="{{ url_for('track_order_status_sales_staff') }}" class="filter-form">
+            <div class="form-row">
+                <div class="col">
+                    <input type="text" name="order_id" class="form-control" placeholder="Order ID">
+                </div>
+                <div class="col">
+                    <select name="status" class="form-control">
+                        <option value="">All Statuses</option>
+                        <option value="Pending">Pending</option>
+                        <option value="Processed">Processed</option>
+                        <option value="Shipped">Shipped</option>
+                        <option value="Delivered">Delivered</option>
+                        <option value="Cancelled">Cancelled</option>
+                    </select>
+                </div>
+                <div class="col">
+                    <button type="submit" class="btn btn-primary">Filter</button>
+                </div>
+            </div>
+        </form>
+        <div class="table-responsive">
+            <table class="table table-striped">
+                <thead>
+                    <tr>
+                        <th>Order ID</th>
+                        <th>Customer ID</th>
+                        <th>Order Date</th>
+                        <th>Status</th>
+                        <th>Details</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for order in orders %}
+                    <tr>
+                        <td>{{ order['orderid'] }}</td>
+                        <td>{{ order['customerid'] }}</td>
+                        <td>{{ order['orderdate'].strftime('%Y-%m-%d') }}</td>
+                        <td>{{ order['orderstatus'] }}</td>
+                        <td><a href="{{ url_for('order_details_sales_staff', order_id=order['orderid']) }}">View Details</a></td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+    </div>
+
+    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+</body>
+</html>

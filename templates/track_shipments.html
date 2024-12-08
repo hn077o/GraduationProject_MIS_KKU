@@ -1,0 +1,117 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Warehouse Staff Dashboard - Supply Chain Management</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.2/dist/umd/popper.min.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f4f4f4;
+        }
+        .navbar-custom {
+            background-color: #000000;
+        }
+        .navbar-custom .navbar-brand,
+        .navbar-custom .nav-link {
+            color: #ffffff;
+        }
+        .navbar-custom .nav-link:hover {
+            color: #ffd700;
+        }
+        .container {
+            margin-top: 20px;
+        }
+        .report-card {
+            border: 1px solid #ddd;
+            border-radius: 5px;
+            background-color: #fff;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+            margin-bottom: 20px;
+        }
+        .report-header {
+            background-color: #0056b3;
+            color: white;
+            padding: 10px;
+            border-radius: 5px 5px 0 0;
+            text-align: center;
+        }
+        .report-table {
+            width: 100%;
+            margin: 0;
+            padding: 0;
+        }
+        .report-table th, .report-table td {
+            padding: 10px;
+            text-align: left;
+        }
+        .report-table th {
+            background-color: #f4f4f4;
+        }
+        .report-table td {
+            border-bottom: 1px solid #ddd;
+        }
+    </style>
+    <script>
+        function handleLogout(event) {
+            event.preventDefault();
+            window.location.href = "{{ url_for('login') }}";
+        }
+    </script>
+</head>
+<body>
+    <nav class="navbar navbar-expand-lg navbar-custom fixed-top">
+        <a class="navbar-brand" href="{{ url_for('index') }}">Supply Chain Management</a>
+        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="navbarNav">
+            <ul class="navbar-nav ml-auto">
+                <li class="nav-item">
+                    <a class="nav-link" href="{{ url_for('index') }}">Home</a>
+                </li>
+                <li class="nav-item active">
+                    <a class="nav-link" href="{{ url_for('warehouse_dashboard') }}">Warehouse Staff Dashboard </a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="{{ url_for('logout_users') }}">Logout</a>
+                </li>
+            </ul>
+        </div>
+    </nav>
+
+    <div class="container p-5">
+        <div class="report-card">
+            <div class="report-header">
+                <h1>Track Shipments</h1>
+            </div>
+            <div class="table-responsive">
+                <table class="table report-table">
+                    <thead class="thead-dark">
+                        <tr>
+                            <th>Shipment ID</th>
+                            <th>Order ID</th>
+                            <th>Shipment Status</th>
+                            <th>Estimated Delivery Date</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for shipment in shipments %}
+                        <tr>
+                            <td>{{ shipment.ShipmentID }}</td>
+                            <td>{{ shipment.OrderID }}</td>
+                            <td>{{ shipment.Status }}</td>
+                            <td>{{ shipment.EstimatedDeliveryDate }}</td>
+                        </tr>
+                        {% endfor %}
+                    </tbody>            
+                </table>
+            </div>
+        </div>
+    </div>
+</body>
+</html>

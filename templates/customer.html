@@ -64,8 +64,10 @@
                     <a class="nav-link" href="{{ url_for('index') }}">Home</a>
                 </li>
                 <li class="nav-item active">
-                    <a class="nav-link" href="#">Customer Dashboard <span class="sr-only">(current)</span></a>
+                    <a class="nav-link" href="{{ url_for('customer_dashboard') }}">Customer Dashboard </a>
                 </li>
+                <li class="nav-item">
+                    <a class="nav-link">Customer ID: {{ session['customer_id'] }}</a>                </li>
                 <li class="nav-item">
                     <a class="nav-link" href="{{ url_for('logout_users') }}">Logout</a>
                 </li>
@@ -87,7 +89,7 @@
                             <ul class="list-group">
                                 <li class="list-group-item"><a href="{{ url_for('view_shopping_cart') }}">View Shopping Cart</a></li>
                                 <li class="list-group-item"><a href="{{ url_for('modify_shopping_cart') }}">Modify Shopping Cart</a></li>
-                                <li class="list-group-item"><a href="{{ url_for('checkout') }}">Checkout</a></li>
+                                <li class="list-group-item"><a href="{{ url_for('Checkout') }}">Checkout</a></li>
                             </ul>
                         </div>
                     </div>

@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>View Sales Reports - Supply Chain Management</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f4f4f4;
+        }
+        .navbar-custom {
+            background-color: #000000;
+        }
+        .navbar-custom .navbar-brand,
+        .navbar-custom .nav-link {
+            color: #fff;
+        }
+        .navbar-custom .nav-link:hover {
+            color: #ffd700;
+        }
+        .container {
+            margin-top: 80px;
+        }
+        .report-header {
+            background-color: #0056b3;
+            color: white;
+            padding: 15px;
+            margin-bottom: 20px;
+            text-align: center;
+        }
+        .table thead {
+            background-color: #0056b3;
+            color: white;
+        }
+    </style>
+</head>
+<body>
+    <!-- شريط التنقل -->
+    <nav class="navbar navbar-expand-lg navbar-custom fixed-top">
+        <a class="navbar-brand" href="{{ url_for('index') }}">Supply Chain Management</a>
+        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav" 
+                aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="navbarNav">
+            <ul class="navbar-nav ml-auto">
+                <li class="nav-item{% if request.endpoint == 'index' %} active{% endif %}">
+                    <a class="nav-link" href="{{ url_for('index') }}">Home</a>
+                </li>
+                <li class="nav-item{% if request.endpoint == 'sales_staff_dashboard' %} active{% endif %}">
+                    <a class="nav-link" href="{{ url_for('sales_dashboard') }}">Sales Staff Dashboard</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link">Sales Staff ID: {{ session['user_id'] }}</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="{{ url_for('logout_users') }}">Logout</a>
+                </li>
+            </ul>
+        </div>
+    </nav>
+
+    <div class="container">
+        <div class="report-header">
+            <h1>Sales Reports</h1>
+        </div>
+        <div class="table-responsive">
+            <table class="table table-striped">
+                <thead>
+                    <tr>
+                        <th>Report Date</th>
+                        <th>Total Sales</th>
+                        <th>Total Orders</th>
+                        <th>Total Revenue</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for report in sales_reports %}
+                    <tr>
+                        <td>{{ report['reportdate'] }}</td>
+                        <td>{{ report['totalsales'] }}</td>
+                        <td>{{ report['totalorders'] }}</td>
+                        <td>${{ report['totalrevenue'] }}</td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+    </div>
+
+    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+</body>
+</html>

@@ -1,0 +1,120 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Order Details - Sales Staff - Supply Chain Management</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <style>
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background-color: #f4f4f4;
+        }
+        .navbar-custom {
+            background-color: #000000;
+        }
+        .navbar-custom .navbar-brand,
+        .navbar-custom .nav-link {
+            color: #ffffff;
+        }
+        .navbar-custom .nav-link:hover {
+            color: #ffd700;
+        }
+        .container {
+            margin-top: 80px;
+        }
+        .order-header {
+            background-color: #0056b3;
+            color: white;
+            padding: 20px;
+            margin-bottom: 20px;
+            border-radius: 5px;
+            text-align: center;
+        }
+        .order-details p {
+            font-size: 1.1em;
+            margin: 10px 0;
+        }
+        .order-details strong {
+            width: 150px;
+            display: inline-block;
+        }
+        .table thead {
+            background-color: #0056b3;
+            color: white;
+        }
+        .table tbody tr:hover {
+            background-color: #e9ecef;
+        }
+        .footer {
+            text-align: center;
+            margin-top: 40px;
+            color: #888;
+        }
+    </style>
+</head>
+<body>
+    <nav class="navbar navbar-expand-lg navbar-custom fixed-top">
+        <a class="navbar-brand" href="{{ url_for('index') }}">Supply Chain Management</a>
+        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav" 
+                aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="navbarNav">
+            <ul class="navbar-nav ml-auto">
+                <li class="nav-item{% if request.endpoint == 'index' %} active{% endif %}">
+                    <a class="nav-link" href="{{ url_for('index') }}">Home</a>
+                </li>
+                <li class="nav-item{% if request.endpoint == 'sales_staff_dashboard' %} active{% endif %}">
+                    <a class="nav-link" href="{{ url_for('sales_dashboard') }}">Sales Staff Dashboard</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link">Sales Staff ID: {{ session['user_id'] }}</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="{{ url_for('logout_users') }}">Logout</a>
+                </li>
+            </ul>
+        </div>
+    </nav>
+
+    <div class="container">
+        <div class="order-header">
+            <h1>Order Details</h1>
+        </div>
+
+        <div class="order-details">
+            <p><strong>Order ID:</strong> {{ order['orderid'] }}</p>
+            <p><strong>Customer Name:</strong> {{ order['customername'] }}</p>
+            <p><strong>Order Date:</strong> {{ order['orderdate'].strftime('%Y-%m-%d') }}</p>
+            <p><strong>Status:</strong> {{ order['orderstatus'] }}</p>
+        </div>
+
+        <h2 class="mt-5">Products in Order</h2>
+        <table class="table table-striped">
+            <thead>
+                <tr>
+                    <th>Product Name</th>
+                    <th>Quantity</th>
+                    <th>Unit Price</th>
+                    <th>Total</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for item in order_items %}
+                <tr>
+                    <td>{{ item['productname'] }}</td>
+                    <td>{{ item['quantity'] }}</td>
+                    <td>${{ item['unitprice'] }}</td>
+                    <td>${{ item['quantity'] * item['unitprice'] }}</td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+
+
+    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+</body>
+</html>
